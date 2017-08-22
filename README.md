@@ -1,6 +1,6 @@
-### OAuth2 + Jwt
+## OAuth2 + Jwt
 
-[![](https://jitpack.io/v/XGFan/oauth-jwt.svg)](https://jitpack.io/#XGFan/oauth-jwt)
+[![](https://jitpack.io/v/XGFan/oauth_jwt.svg)](https://jitpack.io/#XGFan/oauth_jwt)
 
 快速为Spring Security添加Oauth登陆和Jwt鉴权功能
 
