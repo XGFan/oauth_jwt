@@ -180,28 +180,28 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.jetbrains.dokka</groupId>
-                <artifactId>dokka-maven-plugin</artifactId>
-                <version>0.9.13</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>javadocJar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.jetbrains.dokka</groupId>-->
+                <!--<artifactId>dokka-maven-plugin</artifactId>-->
+                <!--<version>0.9.13</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>javadocJar</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>Kotlin Dokka</id>
-            <url>https://mvnrepository.com/repos/kotlin-dokka</url>
-        </repository>
-    </repositories>
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>Kotlin Dokka</id>-->
+            <!--<url>https://mvnrepository.com/repos/kotlin-dokka</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
 
     <licenses>
         <license>
