@@ -35,21 +35,18 @@
 3.修改配置(yaml为例)
 
 ```yaml
-test4x:
+oauth-jwt:
   loginPath: /login #oauth授权地址
   oauth:
     id: 8d84f30cdcca397449c06935910dc6102d5ecefea19285bc5d9b13244ba77bc0
     secret: 60ec51965f60520b6ef1bc394d44c1317ef7128b83a075ef385c87e59c6d6147
     tokenUri: https://gitlab.com/oauth/token
     redirectUri: http://127.0.0.1:9090/login #可能是跳往前端
-    grantType: authorization_code
-    authenticationScheme: body
     userInfoUri: https://gitlab.com/api/v4/user
   jwt:
     tokenName: X-Auth-Token #jwt存放头
     secret: hello! #加密key
     expiration: 24 #有效期(小时)
-
 ```
 
 
