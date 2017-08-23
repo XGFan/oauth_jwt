@@ -2,6 +2,7 @@ package com.test4x.lib.oauth_jwt.oauth
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
+import com.test4x.lib.oauth_jwt.OauthJwtProp
 import net.dongliu.requests.RawResponse
 import net.dongliu.requests.Requests
 import org.springframework.security.authentication.AuthenticationServiceException
@@ -9,7 +10,7 @@ import java.io.IOException
 import java.util.*
 
 open class DefaultOAuthClient
-constructor(var prop: OAuthProperties, val objectMapper: ObjectMapper = ObjectMapper()) {
+constructor(var prop: OauthJwtProp.OAuthProp, val objectMapper: ObjectMapper = ObjectMapper()) {
 
     protected open val mapType = TypeFactory.defaultInstance().constructMapType(Map::class.java, String::class.java, Any::class.java)
 

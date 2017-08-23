@@ -1,6 +1,7 @@
 package com.test4x.lib.oauth_jwt.oauth;
 
 import com.test4x.lib.oauth_jwt.jwt.JwtTokenUtil;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -41,15 +42,13 @@ public class OAuthFilter extends AbstractAuthenticationProcessingFilter {
         String code = getCodeFromRequest(request);
         if (code == null) {
             //应该返回401，前往授权
-            response.sendError(401, "Redirect to authorization uri");
+            throw new BadCredentialsException("Code Is Null");
         }
         Map<String, Object> accessToken;
         try {
             accessToken = authClient.acquireAccessToken(code);
         } catch (Exception e) {
-            e.printStackTrace();
-            response.sendError(401, "Can not get access token");
-            return null;
+            throw new BadCredentialsException("Can not get access token", e);
         }
         Map<String, Object> userInfo = authClient.acquireUserInfo(accessToken.get("access_token").toString());
         //如果用户信息也完整
