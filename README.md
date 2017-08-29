@@ -4,9 +4,9 @@
 
 快速为Spring Security添加Oauth登陆和Jwt鉴权功能
 
-使用方式
+#### 使用方式
 
-1.添加依赖
+##### 1.添加依赖
 
 ```xml
 	<dependency>
@@ -25,14 +25,16 @@
 
 
 
-2.添加注解
+##### 2.添加注解
 
 ```java
 @EnableOAuthJwt
 @EnableWebSecurity
 ```
 
-3.修改配置(yaml为例)
+
+
+##### 3.修改配置(yaml为例)
 
 ```yaml
 oauth-jwt:
@@ -51,7 +53,34 @@ oauth-jwt:
 
 
 
-相关设置（可见[OAuthJwtConfigure.java]((https://github.com/XGFan/oauth_jwt/blob/master/src/main/java/com/test4x/lib/oauth_jwt/OAuthJwtConfigure.java))）
+##### 4.实现OAuthService
+
+该接口包含三个方法
+
+```kotlin
+fun acquireAccessToken(code: String): A //根据授权码获取accessToken对象
+fun acquireUserInfo(accessToken: A): R //根据上一步的accessToken对象获取用户信息
+fun handleAndAuth(accessToken: A, userInfo: R): Claims //把用户信息进行处理或者生成授权凭证
+```
+
+需要注意的是，目前的授权凭证是通过`Claims`的`Subject`进行查找的，所以生成`Claims`时必须放入`Subject`
+
+例子：
+
+```kotlin
+    override fun handleAndAuth(accessToken: Map<String, Any>, userInfo: Map<String, Any>): Claims {
+   val user = trunTheUserInfoToUser(userInfo) //生成一个业务用户实体
+        user.accessToken = accessToken  //保存一下accessToken(方便后期刷新)
+        userDao.saveUser(user) //保存或者更新用户
+        val defaultClaims = DefaultClaims() //生成Claims
+        defaultClaims.subject = user.id
+        return defaultClaims
+    }
+```
+
+
+
+更多设置（可见[OauthJwtConfigurer.java]((https://github.com/XGFan/oauth_jwt/blob/master/src/main/java/com/test4x/lib/oauth_jwt/OauthJwtConfigurer.java))）
 
 + 关闭Session
 + 关闭HttpCache
