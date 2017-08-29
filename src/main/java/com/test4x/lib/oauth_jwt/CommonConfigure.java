@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test4x.lib.oauth_jwt.biz.PrincipalRepo;
 import com.test4x.lib.oauth_jwt.jwt.JwtAuthenticationProvider;
 import com.test4x.lib.oauth_jwt.jwt.JwtTokenUtil;
-import com.test4x.lib.oauth_jwt.oauth.DefaultOAuthClient;
+import com.test4x.lib.oauth_jwt.oauth.DefaultOAuthService;
+import com.test4x.lib.oauth_jwt.oauth.OAuthService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
@@ -46,11 +47,11 @@ public class CommonConfigure {
     }
 
     @Bean
-    @ConditionalOnMissingBean(DefaultOAuthClient.class)
-    public DefaultOAuthClient oAuthClient(OauthJwtProp oauthJwtProp,
-                                          ObjectMapper objectMapper) {
+    @ConditionalOnMissingBean(OAuthService.class)
+    public OAuthService oAuthClient(OauthJwtProp oauthJwtProp,
+                                    ObjectMapper objectMapper) {
         System.out.println("创建默认DefaultOAuthClient");
-        return new DefaultOAuthClient(oauthJwtProp.getOauth(), objectMapper);
+        return new DefaultOAuthService(oauthJwtProp.getOauth(), objectMapper);
     }
 
     @Bean

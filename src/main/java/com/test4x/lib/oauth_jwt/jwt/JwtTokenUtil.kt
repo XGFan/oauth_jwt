@@ -54,12 +54,23 @@ constructor(val objectMapper: ObjectMapper,
         return lastPasswordReset != null && created.before(lastPasswordReset)
     }
 
-    fun doGenerateToken(subject: String, claims: Map<String, Any>): String {
+    fun doGenerateToken(claims: Claims): String {
         //创建时间与过期时间
         val now = LocalDateTime.now()
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(subject)
+                .setIssuedAt(now.toDate())
+                .setExpiration(now.plusHours(expiration).toDate())
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact()
+    }
+
+
+    fun doGenerateToken(claims: Map<String, Any>): String {
+        //创建时间与过期时间
+        val now = LocalDateTime.now()
+        return Jwts.builder()
+                .setClaims(claims)
                 .setIssuedAt(now.toDate())
                 .setExpiration(now.plusHours(expiration).toDate())
                 .signWith(SignatureAlgorithm.HS512, secret)

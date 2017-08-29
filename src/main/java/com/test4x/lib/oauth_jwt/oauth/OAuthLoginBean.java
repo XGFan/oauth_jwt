@@ -4,20 +4,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * 这只是一个搬运工
  * 包含accesstoken和userInfo
  */
-public class OAuthLoginBean implements Authentication {
+public class OAuthLoginBean<A, R> implements Authentication {
     private final static UnsupportedOperationException E = new UnsupportedOperationException("Use OAuthAuthenticationToken is wrong");
 
-    public Map<String, Object> accessToken;
-    public Map<String, Object> userInfo;
+    public A accessToken;
+    public R userInfo;
 
 
-    public OAuthLoginBean(Map<String, Object> accessToken, Map<String, Object> userInfo) {
+    public OAuthLoginBean(A accessToken, R userInfo) {
         this.accessToken = accessToken;
         this.userInfo = userInfo;
     }

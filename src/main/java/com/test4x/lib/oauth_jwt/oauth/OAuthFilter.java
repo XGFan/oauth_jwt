@@ -1,28 +1,39 @@
 package com.test4x.lib.oauth_jwt.oauth;
 
 import com.test4x.lib.oauth_jwt.jwt.JwtTokenUtil;
+import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
+import java.io.PrintWriter;
+import java.util.function.Function;
 
-public class OAuthFilter extends AbstractAuthenticationProcessingFilter {
+public class OAuthFilter<A, R> extends AbstractAuthenticationProcessingFilter {
 
-    private DefaultOAuthClient authClient;
+    private OAuthService<A, R> authService;
 
+    private JwtTokenUtil jwtTokenUtil;
 
-    public void setAuthClient(DefaultOAuthClient authClient) {
-        this.authClient = authClient;
+    private Function<HttpServletRequest, String> tokenGetter = request -> request.getParameter("code");
+
+    public void setAuthService(OAuthService authService) {
+        this.authService = authService;
     }
 
     public void setJwtTokenUtil(JwtTokenUtil jwtTokenUtil) {
-        setAuthenticationSuccessHandler(new OAuthSuccessHandler(jwtTokenUtil));
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
+
+    public void setTokenGetter(Function<HttpServletRequest, String> tokenGetter) {
+        this.tokenGetter = tokenGetter;
     }
 
     public OAuthFilter(String defaultFilterProcessesUrl) {
@@ -39,26 +50,37 @@ public class OAuthFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-        String code = getCodeFromRequest(request);
+        String code = tokenGetter.apply(request);
         if (code == null) {
             //应该返回401，前往授权
             throw new BadCredentialsException("Code Is Null");
         }
-        Map<String, Object> accessToken;
+        A accessToken;
         try {
-            accessToken = authClient.acquireAccessToken(code);
+            accessToken = authService.acquireAccessToken(code);
         } catch (Exception e) {
             throw new BadCredentialsException("Can not get access token", e);
         }
-        Map<String, Object> userInfo = authClient.acquireUserInfo(accessToken.get("access_token").toString());
+        R userInfo = authService.acquireUserInfo(accessToken);
         //如果用户信息也完整
         //就使用accessToken和userInfo生成token
-        return new OAuthLoginBean(accessToken, userInfo);
+        return new OAuthLoginBean<A, R>(accessToken, userInfo);
     }
 
 
-    private String getCodeFromRequest(HttpServletRequest request) {
-        return request.getParameter("code");
+    /**
+     * 成功之后该干嘛干嘛
+     */
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        OAuthLoginBean<A, R> auth = (OAuthLoginBean<A, R>) authResult;
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+        Claims claims = authService.handleAndAuth(auth.accessToken, auth.userInfo);
+        String token = jwtTokenUtil.doGenerateToken(claims);
+        //todo 这儿应该写成json更合适一点
+        PrintWriter writer = response.getWriter();
+        writer.append(token);
+        writer.close();
     }
 
 }

@@ -3,8 +3,8 @@ package com.test4x.lib.oauth_jwt;
 import com.test4x.lib.oauth_jwt.biz.PrincipalRepo;
 import com.test4x.lib.oauth_jwt.jwt.JwtAuthenticationTokenFilter;
 import com.test4x.lib.oauth_jwt.jwt.JwtTokenUtil;
-import com.test4x.lib.oauth_jwt.oauth.DefaultOAuthClient;
 import com.test4x.lib.oauth_jwt.oauth.OAuthFilter;
+import com.test4x.lib.oauth_jwt.oauth.OAuthService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,9 +21,7 @@ public class OauthJwtConfigurer {
 
     public void configure(HttpSecurity http) throws Exception {
         OauthJwtProp oauthJwtProp = this.applicationContext.getBean(OauthJwtProp.class);
-
-
-        DefaultOAuthClient oAuthClient = this.applicationContext.getBean(DefaultOAuthClient.class);
+        OAuthService oAuthClient = this.applicationContext.getBean(OAuthService.class);
         JwtTokenUtil jwtTokenUtil = this.applicationContext.getBean(JwtTokenUtil.class);
         PrincipalRepo principalRepo = this.applicationContext.getBean(PrincipalRepo.class);
 
@@ -57,14 +55,12 @@ public class OauthJwtConfigurer {
         return new JwtAuthenticationTokenFilter(tokenName, principalRepo, jwtTokenUtil);
     }
 
-    private OAuthFilter oAuthFilter(String loginPath, DefaultOAuthClient oAuthClient, JwtTokenUtil jwtTokenUtil) throws Exception {
+    private OAuthFilter oAuthFilter(String loginPath, OAuthService oAuthClient, JwtTokenUtil jwtTokenUtil) throws Exception {
         OAuthFilter oAuthFilter = new OAuthFilter(loginPath);
         oAuthFilter.setApplicationEventPublisher(this.applicationContext);
-        oAuthFilter.setAuthClient(oAuthClient);
+        oAuthFilter.setAuthService(oAuthClient);
         oAuthFilter.setJwtTokenUtil(jwtTokenUtil);
         oAuthFilter.setAuthenticationManager(authentication -> null); //实际上用不上
         return oAuthFilter;
     }
-
-
 }
