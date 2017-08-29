@@ -3,19 +3,17 @@ package com.test4x.lib.oauth_jwt.oauth
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
 import com.test4x.lib.oauth_jwt.OauthJwtProp
-import io.jsonwebtoken.Claims
 import net.dongliu.requests.RawResponse
 import net.dongliu.requests.Requests
 import org.springframework.security.authentication.AuthenticationServiceException
 import java.io.IOException
 import java.util.*
 
-open class DefaultOAuthService
-constructor(var prop: OauthJwtProp.OAuthProp, val objectMapper: ObjectMapper = ObjectMapper()) : OAuthService<Map<String, Any>, Map<String, Any>> {
+abstract class AbstractOAuthService
+constructor(var prop: OauthJwtProp.OAuthProp, val objectMapper: ObjectMapper) : OAuthService<Map<String, Any>, Map<String, Any>> {
 
 
     protected open val mapType = TypeFactory.defaultInstance().constructMapType(Map::class.java, String::class.java, Any::class.java)
-
 
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, AuthenticationServiceException::class)
@@ -67,10 +65,5 @@ constructor(var prop: OauthJwtProp.OAuthProp, val objectMapper: ObjectMapper = O
         } catch (e: IOException) {
             throw AuthenticationServiceException(json, e)
         }
-    }
-
-
-    override fun handleAndAuth(accessToken: Map<String, Any>, userInfo: Map<String, Any>): Claims {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

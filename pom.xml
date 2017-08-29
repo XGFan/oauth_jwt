@@ -6,7 +6,7 @@
 
     <groupId>com.test4x.lib</groupId>
     <artifactId>oauth_jwt</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>jar</packaging>
 
     <name>com.test4x.oauth_jwt</name>
