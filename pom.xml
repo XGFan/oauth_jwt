@@ -6,7 +6,7 @@
 
     <groupId>com.test4x.lib</groupId>
     <artifactId>oauth_jwt</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <packaging>jar</packaging>
 
     <name>com.test4x.oauth_jwt</name>
@@ -181,26 +181,26 @@
                 </executions>
             </plugin>
             <!--<plugin>-->
-                <!--<groupId>org.jetbrains.dokka</groupId>-->
-                <!--<artifactId>dokka-maven-plugin</artifactId>-->
-                <!--<version>0.9.13</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>javadocJar</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+            <!--<groupId>org.jetbrains.dokka</groupId>-->
+            <!--<artifactId>dokka-maven-plugin</artifactId>-->
+            <!--<version>0.9.13</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<phase>package</phase>-->
+            <!--<goals>-->
+            <!--<goal>javadocJar</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
             <!--</plugin>-->
         </plugins>
     </build>
 
     <!--<repositories>-->
-        <!--<repository>-->
-            <!--<id>Kotlin Dokka</id>-->
-            <!--<url>https://mvnrepository.com/repos/kotlin-dokka</url>-->
-        <!--</repository>-->
+    <!--<repository>-->
+    <!--<id>Kotlin Dokka</id>-->
+    <!--<url>https://mvnrepository.com/repos/kotlin-dokka</url>-->
+    <!--</repository>-->
     <!--</repositories>-->
 
     <licenses>

@@ -16,7 +16,6 @@ class OauthJwtProp {
         lateinit var id: String
         lateinit var secret: String
         lateinit var tokenUri: String
-        lateinit var redirectUri: String
         lateinit var userInfoUri: String
 
         var grantType: String = "authorization_code"

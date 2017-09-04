@@ -24,6 +24,8 @@ public class OAuthFilter<A, R> extends AbstractAuthenticationProcessingFilter {
 
     private Function<HttpServletRequest, String> tokenGetter = request -> request.getParameter("code");
 
+    private Function<HttpServletRequest, String> redirectUriGetter = request -> request.getParameter("redirectUri");
+
     public void setAuthService(OAuthService authService) {
         this.authService = authService;
     }
@@ -34,6 +36,10 @@ public class OAuthFilter<A, R> extends AbstractAuthenticationProcessingFilter {
 
     public void setTokenGetter(Function<HttpServletRequest, String> tokenGetter) {
         this.tokenGetter = tokenGetter;
+    }
+
+    public void setRedirectUriGetter(Function<HttpServletRequest, String> redirectUriGetter) {
+        this.redirectUriGetter = redirectUriGetter;
     }
 
     public OAuthFilter(String defaultFilterProcessesUrl) {
@@ -51,13 +57,14 @@ public class OAuthFilter<A, R> extends AbstractAuthenticationProcessingFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
         String code = tokenGetter.apply(request);
-        if (code == null) {
+        String redirectUri = redirectUriGetter.apply(request);
+        if (code == null || redirectUri == null) {
             //应该返回401，前往授权
-            throw new BadCredentialsException("Code Is Null");
+            throw new BadCredentialsException("code or redirectUri is null");
         }
         A accessToken;
         try {
-            accessToken = authService.acquireAccessToken(code);
+            accessToken = authService.acquireAccessToken(code, redirectUri);
         } catch (Exception e) {
             throw new BadCredentialsException("Can not get access token", e);
         }

@@ -17,13 +17,13 @@ constructor(var prop: OauthJwtProp.OAuthProp, val objectMapper: ObjectMapper) : 
 
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, AuthenticationServiceException::class)
-    override fun acquireAccessToken(code: String): Map<String, Any> {
+    override fun acquireAccessToken(code: String, redirectUrl: String): Map<String, Any> {
         val build = Requests.post(prop.tokenUri)
         val para = mapOf<String, String>(
                 OAuthConstants.OAUTH_CLIENT_ID to prop.id,
                 OAuthConstants.OAUTH_CLIENT_SECRET to prop.secret,
                 OAuthConstants.OAUTH_CODE to code,
-                OAuthConstants.OAUTH_REDIRECT_URI to prop.redirectUri,
+                OAuthConstants.OAUTH_REDIRECT_URI to redirectUrl,
                 OAuthConstants.OAUTH_GRANT_TYPE to prop.grantType
         )
         build.headers(mapOf("Accept" to "application/json"))
@@ -50,7 +50,7 @@ constructor(var prop: OauthJwtProp.OAuthProp, val objectMapper: ObjectMapper) : 
     @Throws(AuthenticationServiceException::class)
     override fun acquireUserInfo(accessToken: Map<String, Any>): Map<String, Any> {
         val map = HashMap<String, String>()
-        map.put("access_token", accessToken.get("access_token").toString())
+        map.put("access_token", accessToken["access_token"].toString())
         val rawResponse = Requests.get(prop.userInfoUri).params(map).send()
         val json = rawResponse.readToText()
         if (rawResponse.statusCode != 200) {

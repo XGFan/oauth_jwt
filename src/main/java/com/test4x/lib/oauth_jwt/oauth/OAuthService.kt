@@ -1,17 +1,12 @@
 package com.test4x.lib.oauth_jwt.oauth
 
 import io.jsonwebtoken.Claims
-import org.springframework.security.authentication.AuthenticationServiceException
 
 interface OAuthService<A, R> {
-    @Suppress("UNCHECKED_CAST")
-    @Throws(UnsupportedOperationException::class, AuthenticationServiceException::class)
-    fun acquireAccessToken(code: String): A
 
-    @Suppress("UNCHECKED_CAST")
-    @Throws(AuthenticationServiceException::class)
+    fun acquireAccessToken(code: String, redirectUrl: String): A
+
     fun acquireUserInfo(accessToken: A): R
-
 
     /**
      * 这里就不使用event来通知了，直接在函数里面

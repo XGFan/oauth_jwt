@@ -43,7 +43,6 @@ oauth-jwt:
     id: 8d84f30cdcca397449c06935910dc6102d5ecefea19285bc5d9b13244ba77bc0
     secret: 60ec51965f60520b6ef1bc394d44c1317ef7128b83a075ef385c87e59c6d6147
     tokenUri: https://gitlab.com/oauth/token
-    redirectUri: http://127.0.0.1:9090/login #可能是跳往前端
     userInfoUri: https://gitlab.com/api/v4/user
   jwt:
     tokenName: X-Auth-Token #jwt存放头
