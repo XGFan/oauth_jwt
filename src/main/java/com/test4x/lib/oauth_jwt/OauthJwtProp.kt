@@ -12,20 +12,20 @@ class OauthJwtProp {
     var jwt: JwtProp = JwtProp()
 
 
-    class OAuthProp {
-        lateinit var id: String
-        lateinit var secret: String
-        lateinit var tokenUri: String
-        lateinit var userInfoUri: String
+}
 
-        var grantType: String = "authorization_code"
-        var authenticationScheme: OAuthConstants.ParameterStyle = OAuthConstants.ParameterStyle.BODY
-    }
+class OAuthProp {
+    lateinit var id: String
+    lateinit var secret: String
+    lateinit var tokenUri: String
+    lateinit var userInfoUri: String
 
-    class JwtProp {
-        var tokenName = "X-Auth-Token"
-        var secret = "hello@world"
-        var expiration: Long = 168
-    }
+    var grantType: String = "authorization_code"
+    var authenticationScheme: OAuthConstants.ParameterStyle = OAuthConstants.ParameterStyle.BODY
+}
 
+class JwtProp {
+    var tokenName = "X-Auth-Token"
+    var secret = "hello@world"
+    var expiration: Long = 168
 }

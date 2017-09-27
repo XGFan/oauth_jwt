@@ -1,0 +1,52 @@
+{
+  "properties": [
+    {
+      "name": "oauth-jwt.loginPath",
+      "type": "java.lang.String",
+      "defaultValue": "/login",
+      "sourceType": "com.test4x.lib.oauth_jwt.OauthJwtProp",
+      "description": "拦截URL."
+    },
+    {
+      "name": "oauth-jwt.oauth.id",
+      "type": "java.lang.String",
+      "sourceType": "com.test4x.lib.oauth_jwt.OAuthProp",
+      "description": "oauth appId."
+    },
+    {
+      "name": "oauth-jwt.oauth.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.test4x.lib.oauth_jwt.OAuthProp",
+      "description": "oauth secret."
+    },
+    {
+      "name": "oauth-jwt.oauth.tokenUri",
+      "type": "java.lang.String",
+      "sourceType": "com.test4x.lib.oauth_jwt.OAuthProp",
+      "description": "oauth tokenUri."
+    },
+    {
+      "name": "oauth-jwt.oauth.userInfoUri",
+      "type": "java.lang.String",
+      "sourceType": "com.test4x.lib.oauth_jwt.OAuthProp",
+      "description": "oauth 获取用户信息 uri."
+    },
+    {
+      "name": "oauth-jwt.jwt.tokenName",
+      "type": "java.lang.String",
+      "sourceType": "com.test4x.lib.oauth_jwt.JwtProp"
+    },
+    {
+      "name": "oauth-jwt.jwt.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.test4x.lib.oauth_jwt.JwtProp",
+      "description": "加密key."
+    },
+    {
+      "name": "oauth-jwt.jwt.expiration",
+      "type": "java.lang.Long",
+      "sourceType": "com.test4x.lib.oauth_jwt.JwtProp",
+      "description": "过期时间(小时)."
+    }
+  ]
+}
